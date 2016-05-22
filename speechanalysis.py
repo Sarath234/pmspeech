@@ -32,6 +32,7 @@ if __name__ == '__main__':
     data.loc[:, 'date'] = data.datenplace.apply(lambda s: s[0])
     data.loc[:, 'place'] = data.datenplace.apply(
         lambda s: s[1] if len(s) > 1 else '')
+    data.date = pd.to_datetime(data.date)
     data.loc[:, 'pm'] = data.link.apply(lambda s: s.split('/')[3])
     data = data[['date', 'place', 'pm', 'title', 'speech']]
     data.loc[:, 'title'] = data.title.apply(ProcessText)
@@ -40,5 +41,5 @@ if __name__ == '__main__':
         {'speech': lambda s: '. '.join(s)})
     stopwords = nltk.corpus.stopwords.words('english')
     stopwords = stopwords + ["prime", '.', ',', 'also',
-                             "minister", "'s", "pm", "address", "speech"]
+                             "minister", "'s", "pm"]
     print data_speech.speech.apply(MostCommon)
